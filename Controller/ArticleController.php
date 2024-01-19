@@ -46,7 +46,8 @@ class ArticleController
 
     public function show()
     {
-        // TODO: this can be used for a detail page
+        $article = $this->findArticle();
+        require 'View/articles/show.php';
     }
 
     public function findArticle(int $id): array
@@ -54,7 +55,9 @@ class ArticleController
         try {
             $statement = $this->databaseManager->connection->prepare("SELECT * FROM articles WHERE id = ?");
             $statement->execute([$id]);
-            return $statement->fetch(PDO::FETCH_ASSOC) ?: null;
+            $rawArticle = $statement->fetch(PDO::FETCH_ASSOC);
+
+            return new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
         } catch (PDOException $error) {
             echo $error->getMessage();
             return null;
