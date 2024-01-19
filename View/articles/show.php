@@ -4,7 +4,7 @@
 
 <section>
     <h1><?= $article->title ?></h1>
-    <p><?= $article->formatPublishDate() ?></p>
+    <p><?= $article->formatPublishDate('d-m-y') ?></p>
     <p><?= $article->description ?></p>
 
     <?php // TODO: links to next and previous ?>
