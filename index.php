@@ -27,13 +27,11 @@ $page = $_GET['page'] ?? null;
 // It will *control* the rest of the work to load the page
 switch ($page) {
     case 'articles-index':
-        // This is shorthand for:
-        // $articleController = new ArticleController;
-        // $articleController->index();
         (new ArticleController())->index();
         break;
     case 'articles-show':
-        // TODO: detail page
+        (new ArticleController())->show();
+        break;
     case 'home':
     default:
         (new HomepageController())->index();
