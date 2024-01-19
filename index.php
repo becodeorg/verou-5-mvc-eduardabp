@@ -27,13 +27,14 @@ $page = $_GET['page'] ?? null;
 // It will *control* the rest of the work to load the page
 switch ($page) {
     case 'articles-index':
-        (new ArticleController())->index();
+        (new ArticleController($databaseManager))->index();
         break;
     case 'articles-show':
-        (new ArticleController())->show();
+        $articleID = $_GET['id'] ?? null;
+        (new ArticleController($databaseManager))->show($articleID);
         break;
     case 'home':
     default:
-        (new HomepageController())->index();
+        (new HomepageController($databaseManager))->index();
         break;
 }
