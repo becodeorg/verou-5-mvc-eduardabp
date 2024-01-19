@@ -11,6 +11,13 @@ require 'Model/Article.php';
 //include all your controllers here
 require 'Controller/HomepageController.php';
 require 'Controller/ArticleController.php';
+//include core files here
+require 'Core/DatabaseManager.php';
+require 'config.php';
+
+// make a connection to the database
+$databaseManager = new DatabaseManager($config['host'], $config['user'], $config['password'], $config['dbname']);
+$databaseManager->connect();
 
 // Get the current page to load
 // If nothing is specified, it will remain empty (home should be loaded)
