@@ -38,7 +38,7 @@ class ArticleController
         $articles = [];
         foreach ($rawArticles as $rawArticle) {
             // We are converting an article from a "dumb" array to a much more flexible class
-            $articles[] = new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
+            $articles[] = new Article($rawArticle['id'], $rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
         }
 
         return $articles;
@@ -47,5 +47,17 @@ class ArticleController
     public function show()
     {
         // TODO: this can be used for a detail page
+    }
+
+    public function findArticle(int $id): array
+    {
+        try {
+            $statement = $this->databaseManager->connection->prepare("SELECT * FROM articles WHERE id = ?");
+            $statement->execute([$id]);
+            return $statement->fetch(PDO::FETCH_ASSOC) ?: null;
+        } catch (PDOException $error) {
+            echo $error->getMessage();
+            return null;
+        }
     }
 }
