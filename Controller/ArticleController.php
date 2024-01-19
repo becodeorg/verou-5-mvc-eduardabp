@@ -28,25 +28,22 @@ class ArticleController
             $statement = $this->databaseManager->connection->prepare("SELECT * FROM articles");
             $statement->execute();
             $rawArticles = $statement->fetchAll(PDO::FETCH_ASSOC);
-    
-            return $rawArticles;
+
+            $articles = [];
+            foreach ($rawArticles as $rawArticle) {
+                // We are converting an article from a "dumb" array to a much more flexible class
+                $articles[] = new Article($rawArticle['id'], $rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
+            }
+            return $articles;
         } catch (PDOException $error) {
             echo $error->getMessage();
             return [];
         }
-
-        $articles = [];
-        foreach ($rawArticles as $rawArticle) {
-            // We are converting an article from a "dumb" array to a much more flexible class
-            $articles[] = new Article($rawArticle['id'], $rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
-        }
-
-        return $articles;
     }
 
-    public function show()
+    public function show($articleID)
     {
-        $article = $this->findArticle();
+        $article = $this->findArticle($articleID);
         require 'View/articles/show.php';
     }
 
